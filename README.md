@@ -1,82 +1,78 @@
 # Vision-Based Dynamic Objects Path Prediction for Safer Robot Navigation on Construction Sites
 
-**Authors:**
-* [cite_start]**Liqun Xu** - *Department of Civil and Environmental Engineering, UW-Madison* [cite: 2, 3]
-* [cite_start]**Pakorn Boonpetch** - *Department of Materials Science and Engineering, UW-Madison* [cite: 5, 6]
+**Team Members:**
+* **Liqun Xu** - *Department of Civil and Environmental Engineering, UW-Madison*
+* **Pakorn Boonpetch** - *Department of Materials Science and Engineering, UW-Madison*
 
 ---
 
 ## 📖 Abstract
-[cite_start]This project presents an end-to-end pipeline for collecting field data and training a vision-based motion prediction system for construction sites[cite: 8, 9]. [cite_start]Using a Unitree B2 quadruped robot, we captured egocentric data to train a model capable of predicting the paths of workers and machinery[cite: 10]. [cite_start]The system utilizes a Robust Tracking Pipeline with YOLOv8 Nano and a 6-state Kalman Filter to ensure stable tracking and prediction in dynamic environments[cite: 12, 13].
+This project outlines the procedures for collecting and preparing field data to train a vision-based motion prediction system. Real-world data were gathered using a Unitree B2 quadruped robot deployed on an active construction site at the University of Wisconsin-Madison. The system utilizes a Robust Tracking Pipeline starting with object detection via YOLOv8 Nano and 3D localization using the ZED 2i stereo depth sensor. This approach successfully filters sensor noise, enabling stable 'Active Track' prediction for moving workers and machinery while preventing false alarms.
 
 ## 🎯 Motivation
-Construction sites are complex environments where safety is paramount. [cite_start]Unlike traditional static surveillance, autonomous agents require dynamic, egocentric perception to navigate safely[cite: 17, 18].
-* [cite_start]**The Gap:** Standard datasets often lack the specific constraints and unpredictable nature of active construction zones[cite: 24].
-* [cite_start]**The Goal:** To align with modern robotic perception benchmarks by collecting data from the robot's own moving perspective, enabling proactive accident prevention[cite: 19, 74].
+Construction sites are complex environments that present significant safety challenges for autonomous agents.
+* **The Problem:** Traditional static surveillance does not capture the dynamic, egocentric perspective inherent to autonomous agents in complex environments.
+* **The Goal:** To collect data from the robot's own moving perspective, aligning with modern benchmarks for robotic perception and enabling proactive accident prevention.
 
-## 🛠️ Approach & Hardware
+## 🛠️ Hardware & Data Collection
 
-### Data Collection Platform
-[cite_start]To ensure authenticity and safety, we utilized a mobile platform capable of traversing uneven terrain[cite: 11, 21].
+### Platform
+To ensure authenticity and safety, we utilized a mobile platform capable of navigating uneven terrain.
 
-* [cite_start]**Robot:** Unitree B2 Commercial Quadruped Robot (selected for 4-5 hour battery life and mobility)[cite: 20, 21].
-* [cite_start]**Sensors:** ZED 2i Stereo Camera (High-definition RGB video + Depth sensing)[cite: 22].
-* [cite_start]**Location:** Kellner Family Athletic Center construction site, UW-Madison[cite: 17].
+* **Robot:** **Unitree B2 Quadruped Robot**
+    * Selected for high mobility and 4-5 hour battery life.
+* **Sensors:** **ZED 2i Stereo Camera**
+    * Provides high-definition RGB video and depth sensing essential for spatial mapping.
+* **Location:** Kellner Family Athletic Center construction site, UW-Madison.
 
-> [cite_start]**Collection Strategy:** The robot was manually navigated between randomly selected waypoints (e.g., material storage, active machinery routes) to capture diverse site conditions[cite: 23, 24].
+### Collection Strategy
+The robot was manually navigated between randomly selected waypoints (e.g., material storage areas, active machinery routes). This randomized strategy exposed the system to diverse zones, ensuring the dataset covers the unpredictable nature of real-world construction sites.
 
-![Unitree B2 Robot and ZED Camera Setup](PLACEHOLDER_PATH_TO_FIGURE_2)
-[cite_start]*Figure: The Unitree B2 robot equipped with ZED 2i camera used for field data collection[cite: 20, 34].*
+![Robot Setup](PLACEHOLDER_PATH_TO_ROBOT_IMAGE.png)
+*Figure: The Unitree B2 robot equipped with ZED 2i camera used for field data collection.*
 
-## 💻 Implementation
+## 💻 Implementation: The Tracking Pipeline
 
-### 1. Robust Tracking Pipeline
-[cite_start]We developed a custom pipeline inspired by "tracking-by-detection" paradigms to convert unstructured video into trajectory data[cite: 27].
+We developed a custom "tracking-by-detection" pipeline to convert unstructured video data into a format suitable for trajectory prediction.
 
-1.  [cite_start]**Object Detection:** Replaced initial zero-shot approaches with **YOLOv8 Nano** for efficient detection[cite: 12].
-2.  [cite_start]**3D Localization:** Utilized ZED 2i stereo depth to map 2D detections to 3D space[cite: 12].
-3.  **Tracking & Filtering:**
-    * [cite_start]Implemented a **6-state Kalman Filter**[cite: 13].
-    * **Jitter Filter Heuristic:** Suppresses velocity for objects with a displacement under **0.5 meters**. [cite_start]This filters sensor noise, enabling stable 'Active Track' for moving targets while preventing false alarms in 'Ghost mode'[cite: 13, 14].
+### 1. Object Detection & Localization
+* **Detection:** Replaced initial zero-shot approaches with **YOLOv8 Nano**.
+* **Localization:** Used ZED 2i stereo depth to calculate 3D position.
 
-### 2. Trajectory Extraction Algorithm
-[cite_start]The processing logic iterates through video frames to generate dataset entries[cite: 37]:
+### 2. Tracking Logic
+* **Filter:** A **6-state Kalman Filter** is used to track movement.
+* **Noise Suppression:** Integrated a **Jitter Filter heuristic** that suppresses velocity for objects with a displacement under **0.5 meters**. This filters sensor noise and prevents false alarms (Ghost mode) while maintaining tracking on moving agents.
 
-* **Input:** Raw Video Set $\mathcal{V}$
-* **Process:**
-    1.  [cite_start]**Detect:** Identify agents in frame $f_t$[cite: 39].
-    2.  [cite_start]**Centroid Calculation:** Compute $(u, v)$ for bounding boxes[cite: 40].
-    3.  [cite_start]**Sequence Generation:** Aggregate coordinates by unique ID to form trajectories[cite: 41].
-* [cite_start]**Output:** Structured dataset $\mathcal{D}$ containing Observation ($X$) and Ground Truth ($Y$) components[cite: 46, 47].
+### 3. Trajectory Extraction
+The pipeline iterates through frames to:
+1.  Detect dynamic agents (workers/vehicles).
+2.  Calculate bounding box centroids $(u, v)$.
+3.  Aggregate coordinates by unique ID to form continuous trajectory sequences.
 
-![Logic Flow Diagram](PLACEHOLDER_PATH_TO_FIGURE_3)
-[cite_start]*Figure: Logic flow for generating trajectory datasets from raw video[cite: 73].*
+![Pipeline Logic](PLACEHOLDER_PATH_TO_PIPELINE_DIAGRAM.png)
+*Figure: Logic flow for generating trajectory datasets.*
 
 ## 📊 Results
 
-[cite_start]The primary outcome is a verified, high-fidelity dataset and a validated real-time prediction model[cite: 15].
+The project successfully implemented an end-to-end pipeline from robotic data collection to model inference.
 
-### Qualitative Analysis (BEV Reconstruction)
-[cite_start]We validated the model by projecting output trajectories onto a Bird's Eye View (BEV) map[cite: 81].
+### Qualitative Analysis
+We evaluated the model by projecting output trajectories onto a Bird's Eye View (BEV) map.
+* **Path Planning:** The system successfully generates future path plans (visualized as colored lines) based on observed history.
+* **Constraint Adherence:** Predicted paths generally adhere to navigable areas, avoiding static obstacles and following the natural flow of movement.
 
-* [cite_start]**Path Planning:** The model successfully generates future path plans (colored lines) based on observed history[cite: 82].
-* [cite_start]**Constraint Adherence:** Predicted paths respect site boundaries and avoid static obstacles, mirroring the natural flow of movement seen in training data[cite: 85].
+![BEV Results](PLACEHOLDER_PATH_TO_BEV_IMAGE.png)
+*Figure: Bird's Eye View reconstruction showing predicted path plans.*
 
-![Qualitative Results BEV](PLACEHOLDER_PATH_TO_FIGURE_4)
-[cite_start]*Figure: Bird's Eye View reconstruction showing predicted path lines for workers and machinery[cite: 101, 102].*
+## 📝 Challenges & Limitations
 
-## 📝 Discussion & Challenges
-
-While the pipeline is functional, we encountered several challenges common to wild construction environments:
-
-* [cite_start]**Occlusion Handling:** In crowded zones, dynamic occlusion (e.g., passing machinery) caused fragmented trajectory inputs[cite: 89].
-* [cite_start]**Environmental Variance:** Extreme lighting transitions (sunlight to building shadows) occasionally introduced noise into the detection module[cite: 90].
-* [cite_start]**Complex Interactions:** The current baseline treats agents independently and does not yet account for social interactions (e.g., a worker pausing for a vehicle)[cite: 91].
+* **Occlusion Handling:** In crowded zones, dynamic occlusion from machinery occasionally interrupted tracking continuity.
+* **Environmental Variance:** Extreme lighting variations (e.g., direct sunlight vs. shadows) sometimes introduced noise into the detection module.
+* **Complex Interactions:** The current baseline treats agents independently and does not fully account for social interactions (e.g., a worker pausing for a vehicle).
 
 ## 🚀 Future Work
-
-* [cite_start]**Social Pooling:** Integrate social pooling mechanisms to model agent-to-agent interactions explicitly[cite: 95].
-* [cite_start]**Robustness:** Expand the dataset to include diverse weather conditions[cite: 95].
+* **Social Pooling:** Integrate social pooling mechanisms to model agent-to-agent interactions.
+* **Dataset Expansion:** Include diverse weather conditions to improve model robustness.
 
 ---
-*Based on the Final Report "Vision-Based Dynamic Objects Path Prediction for Safer Robot Navigation on Construction Sites" (2025).*
+*University of Wisconsin - Madison*
