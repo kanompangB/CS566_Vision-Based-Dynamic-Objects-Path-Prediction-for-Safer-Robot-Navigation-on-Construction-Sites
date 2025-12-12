@@ -80,7 +80,7 @@ The trained model was deployed on a hold-out test set, and predictions were proj
 
 ### 🎥 Video Demos
 Below are raw recordings from the pipeline showing real-time tracking:
-### 🎥 Demo Video
+### 🎥 Demo Video: Worker Tracking
 [![Watch the video](https://img.youtube.com/vi/vOPF1eJW_yY/maxresdefault.jpg)](https://youtu.be/vOPF1eJW_yY)
 
 1.  **Single Worker Tracking:** [▶️ Watch Demo 1](./demos/demo1-worker.mp4)
