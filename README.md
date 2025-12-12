@@ -34,7 +34,7 @@ Instead of static recording, we employed a **Randomized Waypoint Navigation** st
 2.  Routes included diverse zones such as **material storage areas** and **active machinery routes**.
 3.  This ensured the dataset captured the unpredictable nature of real-world construction workflows.
 
-![Unitree B2 Robot and ZED Camera Setup](./images/robot.png)
+![Unitree B2 Robot and ZED Camera Setup](./images/images/robot.png)
 *> The Unitree B2 robot equipped with the ZED 2i camera used for field data collection.*
 
 ---
@@ -60,7 +60,7 @@ The pipeline processes the video frames to generate a supervised learning datase
 2.  **Sequence Aggregation:** Coordinates are aggregated by unique IDs.
 3.  **Data Splitting:** Each trajectory is partitioned into **Observation ($X$)** (History) and **Ground Truth ($Y$)** (Prediction Target).
 
-![Data Processing Logic Flow](./Algorithm.png)
+![Data Processing Logic Flow](./images/Algorithm.png)
 *> Algorithm logic flow for generating trajectory datasets from raw video inputs.*
 
 ---
@@ -75,7 +75,7 @@ The trained model was deployed on a hold-out test set, and predictions were proj
 * **Plausible Path Planning:** As shown in the visualization below, the system successfully generates future path plans (colored lines) extending from the agents.
 * **Constraint Learning:** The model demonstrates an understanding of the site's physical constraints. Predicted paths generally adhere to navigable open spaces, avoid static obstacles, and follow the natural flow of movement.
 
-![Bird's Eye View Results](./tracjectory_example1.png)
+![Bird's Eye View Results](./images/tracjectory_example1.png)
 *> BEV reconstruction showing the model's predicted paths (colored lines) for workers and machinery, respecting site boundaries.*
 
 ---
