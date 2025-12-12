@@ -75,7 +75,7 @@ The trained model was deployed on a hold-out test set, and predictions were proj
 * **Plausible Path Planning:** As shown in the visualization below, the system successfully generates future path plans (colored lines) extending from the agents.
 * **Constraint Learning:** The model demonstrates an understanding of the site's physical constraints. Predicted paths generally adhere to navigable open spaces.
 
-![Bird's Eye View Results](./tracjectory_example1.png)
+![Bird's Eye View Results](./images/tracjectory_example1.png)
 *> BEV reconstruction showing the model's predicted paths (colored lines).*
 
 ### 🎥 Video Demos: Real-time Prediction Performance
