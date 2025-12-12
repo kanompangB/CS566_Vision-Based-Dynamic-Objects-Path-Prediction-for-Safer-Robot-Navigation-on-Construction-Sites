@@ -78,14 +78,13 @@ The trained model was deployed on a hold-out test set, and predictions were proj
 ![Bird's Eye View Results](./tracjectory_example1.png)
 *> BEV reconstruction showing the model's predicted paths (colored lines).*
 
-### 🎥 Video Demos
-Below are raw recordings from the pipeline showing real-time tracking:
-### 🎥 Demo Video: Worker Tracking
-[![Watch the video](https://img.youtube.com/vi/vOPF1eJW_yY/maxresdefault.jpg)](https://youtu.be/vOPF1eJW_yY)
+### 🎥 Video Demos: Real-time Prediction Performance
 
-1.  **Single Worker Tracking:** [▶️ Watch Demo 1](./demos/demo1-worker.mp4)
-2.  **Continuous Tracking:** [▶️ Watch Demo 2](./demos/demo2-worker.mp4)
-3.  **Complex Scenario (Workers & Vehicles):** [▶️ Watch Demo 4](./demos/demo4-workers%20and%20vehicles.mp4)
+| **Demo 1: Single Worker Tracking** | **Demo 2: Continuous Tracking** |
+| :---: | :---: |
+| [![Demo 1](https://img.youtube.com/vi/vOPF1eJW_yY/mqdefault.jpg)](https://www.youtube.com/watch?v=vOPF1eJW_yY) | [![Demo 2](https://img.youtube.com/vi/WSjSNHRLcyw/mqdefault.jpg)](https://www.youtube.com/watch?v=WSjSNHRLcyw) |
+| **Demo 3: Handling Occlusion** | **Demo 4: Loader & Truck Interaction** |
+| [![Demo 3](https://img.youtube.com/vi/u8KJ_lNhGX8/mqdefault.jpg)](https://www.youtube.com/watch?v=u8KJ_lNhGX8) | [![Demo 4](https://img.youtube.com/vi/Yiv0hxnbGa4/mqdefault.jpg)](https://www.youtube.com/watch?v=Yiv0hxnbGa4) |
 
 ---
 
